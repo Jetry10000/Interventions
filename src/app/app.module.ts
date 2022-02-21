@@ -16,12 +16,6 @@ import { RouterModule } from '@angular/router';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot([
-      { path:'accueil', component:AcceuilComponent},
-      { path:'probleme', component:ProblemeComponent},    
-      { path:'', redirectTo:'accueil', pathMatch:'full'},
-      { path:'**', redirectTo:'accueil', pathMatch:'full'}
-    ])
   ],
   providers: [],
   bootstrap: [AppComponent]

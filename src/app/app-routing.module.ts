@@ -4,7 +4,7 @@ import { AcceuilComponent } from './acceuil/acceuil.component';
 import { ProblemeComponent } from './probleme/probleme.component';
 
 const routes: Routes = [
-  { path:'accueil', component:AcceuilComponent},
+{ path:'accueil', component:AcceuilComponent},
 { path:'probleme', component:ProblemeComponent},    
 { path:'', redirectTo:'accueil', pathMatch:'full'},
 { path:'**', redirectTo:'accueil', pathMatch:'full'}];
