@@ -13,8 +13,9 @@
             novalidate
             (ngSubmit)="save()"
             [formGroup]="problemeForm">
+            
              <!-- Zone de texte PRENOM -->
-          <div class="form-group row">          
+            <div class="form-group row">          
             <label for="prenomId" class="col-md-2 col-form-label text-right">Prénom :</label>
             <div class="col-md-10">
               <input class="form-control" 
@@ -24,19 +25,29 @@
               formControlName="prenom"            
               [ngClass]="{'is-valid': (problemeForm.get('prenom').touched || 
               problemeForm.get('prenom').dirty) &&
-              problemeForm.get('prenom').valid,
+              (problemeForm.get('prenom').valid),
               'is-invalid': (problemeForm.get('prenom').touched || 
               problemeForm.get('prenom').dirty) &&
-              !problemeForm.get('prenom').valid}"
+              (!problemeForm.get('prenom').valid)}"
               />
-              </div>
-              <!--<span *ngIf="problemeForm.get('prenom').errors.longueurMinimum(3)">
-                  Veuillez entrer plus de caractere
-            </span>-->
-              </div>
-      </form>
-</div>
-           
+              <span class="form-text" *ngIf="(problemeForm.get('prenom').touched ||
+              problemeForm.get('prenom').dirty)&&
+              problemeForm.get('prenom').errors">
+              <span *ngIf="problemeForm.get('prenom').errors['nbreCaracteresInsuffisant']">
+                    <small class="text-muted">
+                        Veuillez entrer plus de caractères.
+                    </small>
+              </span>
+              <span *ngIf="problemeForm.get('prenom').errors['required']">
+                  <small class="text-muted">
+                       Merci de saisir votre prenom.
+                  </small>
+            </span>
+              </span>  
+            </div>
+      </div>
+</form>
+</div>   
             
       <div class="card-footer">
             <!-- Bouton save ici -->
