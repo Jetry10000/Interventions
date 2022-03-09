@@ -41,6 +41,12 @@ export class ProblemeComponent implements OnInit {
     courriel.disable();
     confimation.disable();
     telephone.disable();
+    telephone.reset();
+    if(typeNotification === 'courriel'){
+      courriel.enable();
+      confimation.enable();
+      telephone.disable();
+    }
     courriel.updateValueAndValidity(); 
   }
 }

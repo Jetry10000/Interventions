@@ -87,4 +87,20 @@ it('#18 | Zone CONFIRMER COURRIEL est désactivée quand ne pas me notifier', ()
   let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
   expect(zone.status).toEqual('DISABLED');
 });
+it('#19 | Zone TELEPHONE est désactivée quand notifier par courriel', () => {
+  component.setNotification('courriel');
+  let zone = component.problemeForm.get('telephone');
+  expect(zone.status).toEqual('DISABLED'); 
+});
+it('#20 | Zone ADRESSE COURRIEL est activée quand notifier par courriel', () => {
+  component.setNotification('courriel');
+  let zone = component.problemeForm.get('courrielGroup.courriel');
+  expect(zone.status).not.toEqual('DISABLED'); 
+});
+it('#21 | Zone CONFIRMER COURRIEL est activée quand notifier par courriel', () => {
+  component.setNotification('courriel');
+  let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+  expect(zone.status).not.toEqual('DISABLED'); 
+});
+
 });
