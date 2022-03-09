@@ -11,7 +11,7 @@ import { ProblemeService } from './probleme.service';
 })
 export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
-  categoriesProduits: ITypeProbleme[];
+  typesProbleme: ITypeProbleme[];
   errorMessage: string;
   
   constructor(private fb: FormBuilder, private categories: ProblemeService) { }
@@ -20,13 +20,27 @@ export class ProblemeComponent implements OnInit {
     this.problemeForm = this.fb.group({
       prenom:['', [VerifierCaracteresValidator.longueurMinimum(3), Validators.required]],
       nom:['', [VerifierCaracteresValidator.longueurMinimum(3), Validators.required]],
-      noProbleme:['']
+      noTypeProbleme: ['', Validators.required], 
+      courrielGroup: this.fb.group({
+          courriel: [{value: '', disabled: true}],
+          courrielConfirmation: [{value: '', disabled: true}],
+        }),
+      telephone: [{value: '', disabled: true}],
+      
     });
     this.categories.obtenirCategories()
-  .subscribe(cat => this.categoriesProduits = cat,
+  .subscribe(tp => this.typesProbleme = tp,
              error => this.errorMessage = <any>error);  
 
   }
   save(): void {}
-  
+  setNotification(typeNotification: string): void{
+    const courriel = this.problemeForm.get('courrielGroup.courriel');
+    const confimation = this.problemeForm.get('courrielGroup.courrielConfirmation');
+    const telephone = this.problemeForm.get('telephone');
+    courriel.disable();
+    confimation.disable();
+    telephone.disable();
+    courriel.updateValueAndValidity(); 
+  }
 }
