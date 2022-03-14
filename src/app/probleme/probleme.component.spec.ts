@@ -203,7 +203,7 @@ it('#35 | Zone TELEPHONE est invalide avec 11 chiffres consécutifs quand notifi
   let zone = component.problemeForm.get('telephone');
   zone.setValue('12345678910');
   let errors = zone.errors || {};
-  expect(errors['minLength']).toBeTruthy();
+  expect(errors['maxLength']).toBeTruthy();
 });
 it('#36 | Zone TELEPHONE est valide avec 10 chiffres consécutifs quand notifier par messagerie texte', () => {
   component.setNotification('text');
