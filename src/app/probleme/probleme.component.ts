@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { emailMatcherValidator } from '../shared/longueur-minimum/email-matcher/email-matcher.component';
 import { VerifierCaracteresValidator } from '../shared/longueur-minimum/longueur-minimum.component';
 import { ITypeProbleme } from './probleme';
 import { ProblemeService } from './probleme.service';
@@ -38,6 +39,7 @@ export class ProblemeComponent implements OnInit {
     const courriel = this.problemeForm.get('courrielGroup.courriel');
     const confimation = this.problemeForm.get('courrielGroup.courrielConfirmation');
     const telephone = this.problemeForm.get('telephone');
+    const courrielGroup = this.problemeForm.get('courrielGroup');
     courriel.disable();
     confimation.disable();
     telephone.disable();
@@ -45,8 +47,12 @@ export class ProblemeComponent implements OnInit {
     if(typeNotification === 'courriel'){
       courriel.enable();
       confimation.enable();
+      courriel.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')])
+      confimation.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')])
       telephone.disable();
+      courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])])
     }
     courriel.updateValueAndValidity(); 
+    confimation.updateValueAndValidity(); 
   }
 }
