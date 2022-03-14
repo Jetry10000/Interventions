@@ -52,7 +52,14 @@ export class ProblemeComponent implements OnInit {
       telephone.disable();
       courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])])
     }
+    if(typeNotification === 'text'){
+      telephone.enable();
+      courriel.disable();
+      confimation.disable();
+      telephone.setValidators([Validators.required, Validators.pattern('[0-9]+'), Validators.minLength(10)]);
+    }
     courriel.updateValueAndValidity(); 
     confimation.updateValueAndValidity(); 
+    telephone.updateValueAndValidity();
   }
 }
