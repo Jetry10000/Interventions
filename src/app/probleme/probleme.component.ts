@@ -20,7 +20,7 @@ export class ProblemeComponent implements OnInit {
   ngOnInit(): void {
     this.problemeForm = this.fb.group({
       prenom:['', [VerifierCaracteresValidator.longueurMinimum(3), Validators.required]],
-      nom:['', [VerifierCaracteresValidator.longueurMinimum(3), Validators.required]],
+      nom:['', [Validators.minLength(3), Validators.required]],
       noTypeProbleme: ['', Validators.required], 
       courrielGroup: this.fb.group({
           courriel: [{value: '', disabled: true}],
@@ -29,6 +29,7 @@ export class ProblemeComponent implements OnInit {
       telephone: [{value: '', disabled: true}],
       
     });
+    
     this.categories.obtenirCategories()
   .subscribe(tp => this.typesProbleme = tp,
              error => this.errorMessage = <any>error);  
@@ -40,23 +41,25 @@ export class ProblemeComponent implements OnInit {
     const confimation = this.problemeForm.get('courrielGroup.courrielConfirmation');
     const telephone = this.problemeForm.get('telephone');
     const courrielGroup = this.problemeForm.get('courrielGroup');
+    courriel.clearValidators();
+    courriel.reset();
     courriel.disable();
+    confimation.clearValidators();
+    confimation.reset();
     confimation.disable();
-    telephone.disable();
+    telephone.clearValidators();
     telephone.reset();
+    telephone.disable();
     if(typeNotification === 'courriel'){
       courriel.enable();
       confimation.enable();
       courriel.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')])
       confimation.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')])
-      telephone.disable();
       courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])])
     }
     if(typeNotification === 'text'){
       telephone.enable();
-      courriel.disable();
-      confimation.disable();
-      telephone.setValidators([Validators.required, Validators.pattern('[0-9]+'), Validators.minLength(10)]);
+      telephone.setValidators([Validators.required, Validators.pattern('[0-9]+'), Validators.minLength(10), Validators.maxLength(10)]);
     }
     courriel.updateValueAndValidity(); 
     confimation.updateValueAndValidity(); 
