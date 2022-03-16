@@ -12,16 +12,18 @@ import { ProblemeService } from './probleme.service';
 })
 export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
-  typesProbleme: ITypeProbleme[];
   errorMessage: string;
+  typesprobleme: ITypeProbleme[];
   
-  constructor(private fb: FormBuilder, private categories: ProblemeService) { }
+  
+  constructor(private fb: FormBuilder, private typeproblemeService: ProblemeService) { }
 
   ngOnInit(): void {
     this.problemeForm = this.fb.group({
       prenom:['', [VerifierCaracteresValidator.longueurMinimum(3), Validators.required]],
       nom:['', [Validators.minLength(3), Validators.required]],
       noTypeProbleme: ['', Validators.required], 
+      notification: ['pasnotif'], 
       courrielGroup: this.fb.group({
           courriel: [{value: '', disabled: true}],
           courrielConfirmation: [{value: '', disabled: true}],
@@ -30,9 +32,11 @@ export class ProblemeComponent implements OnInit {
       
     });
     
-    this.categories.obtenirCategories()
-  .subscribe(tp => this.typesProbleme = tp,
-             error => this.errorMessage = <any>error);  
+    this.typeproblemeService.obtenirTypesProbleme()
+        .subscribe(typesProbleme => this.typesprobleme = typesProbleme,
+                   error => this.errorMessage = <any>error);   
+    this.problemeForm.get('notification').valueChanges
+        .subscribe(value => this.setNotification(value));
 
   }
   save(): void {}
@@ -57,19 +61,9 @@ export class ProblemeComponent implements OnInit {
       confimation.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')])
       courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])])
     }
-    else if(typeNotification === 'text'){
+    if(typeNotification === 'text'){
       telephone.enable();
       telephone.setValidators([Validators.required, Validators.pattern('[0-9]+'), Validators.minLength(10), Validators.maxLength(10)]);
-    }
-    else{
-      if(typeNotification === 'Inconnu'){
-        courriel.setValidators([Validators.required]);
-        courriel.disable();
-        confimation.setValidators([Validators.required]);
-        confimation.disable();
-        telephone.setValidators([Validators.required]);
-        telephone.disable();
-      }
     }
 
     courriel.updateValueAndValidity(); 
