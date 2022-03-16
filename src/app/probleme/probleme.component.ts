@@ -57,10 +57,21 @@ export class ProblemeComponent implements OnInit {
       confimation.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')])
       courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])])
     }
-    if(typeNotification === 'text'){
+    else if(typeNotification === 'text'){
       telephone.enable();
       telephone.setValidators([Validators.required, Validators.pattern('[0-9]+'), Validators.minLength(10), Validators.maxLength(10)]);
     }
+    else{
+      if(typeNotification === 'Inconnu'){
+        courriel.setValidators([Validators.required]);
+        courriel.disable();
+        confimation.setValidators([Validators.required]);
+        confimation.disable();
+        telephone.setValidators([Validators.required]);
+        telephone.disable();
+      }
+    }
+
     courriel.updateValueAndValidity(); 
     confimation.updateValueAndValidity(); 
     telephone.updateValueAndValidity();
