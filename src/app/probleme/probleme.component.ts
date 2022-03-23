@@ -22,7 +22,8 @@ export class ProblemeComponent implements OnInit {
     this.problemeForm = this.fb.group({
       prenom:['', [VerifierCaracteresValidator.longueurMinimum(3), Validators.required]],
       nom:['', [Validators.minLength(3), Validators.required]],
-      noTypeProbleme: ['', Validators.required], 
+      // noTypeProbleme: ['', Validators.required], 
+      noTypeProbleme: [''],
       notification: ['pasnotif'], 
       courrielGroup: this.fb.group({
           courriel: [{value: '', disabled: true}],

@@ -1,4 +1,4 @@
 export interface ITypeProbleme {
     id: number;
-    descriptionTypeProbleme: string;
+    descriptionTypeProbleme: string
 }
