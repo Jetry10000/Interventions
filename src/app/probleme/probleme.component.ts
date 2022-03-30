@@ -4,6 +4,8 @@ import { emailMatcherValidator } from '../shared/longueur-minimum/email-matcher/
 import { VerifierCaracteresValidator } from '../shared/longueur-minimum/longueur-minimum.component';
 import { ITypeProbleme } from './probleme';
 import { ProblemeService } from './probleme.service';
+import { Router } from '@angular/router';
+import { IProbleme } from './problemedata';
 
 @Component({
   selector: 'Inter-probleme',
@@ -14,9 +16,9 @@ export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
   errorMessage: string;
   typesprobleme: ITypeProbleme[];
+  probleme: IProbleme;
   
-  
-  constructor(private fb: FormBuilder, private typeproblemeService: ProblemeService) { }
+  constructor(private fb: FormBuilder, private typeproblemeService: ProblemeService, private problemeService: ProblemeService, private route : Router) { }
 
   ngOnInit(): void {
     this.problemeForm = this.fb.group({
@@ -42,7 +44,27 @@ export class ProblemeComponent implements OnInit {
         .subscribe(value => this.setNotification(value));
 
   }
-  save(): void {}
+  save(): void {
+    if (this.problemeForm.dirty && this.problemeForm.valid) {
+    // Copy the form values over the problem object values
+    this.probleme = this.problemeForm.value;
+    this.probleme.id = 0;
+    this.probleme.courriel = this.problemeForm.get('courrielGroup.courriel').value;
+    //this.probleme.dateProbleme = new Date();
+    this.problemeService.saveProbleme(this.probleme)
+        .subscribe( // on s'abonne car on a un retour du serveur à un moment donné avec la callback fonction
+            () => this.onSaveComplete(),  // Fonction callback
+            (error: any) => this.errorMessage = <any>error
+        );
+} else if (!this.problemeForm.dirty) {
+    this.onSaveComplete();
+}
+}
+onSaveComplete(): void { 
+  // Reset the form to clear the flags
+  this.problemeForm.reset();  // Pour remettre Dirty à false.  Autrement le Route Guard va dire que le formulaire n'est pas sauvegardé
+  this.route.navigate(['/accueil']);
+}
   setNotification(typeNotification: string): void{
     const courriel = this.problemeForm.get('courrielGroup.courriel');
     const confimation = this.problemeForm.get('courrielGroup.courrielConfirmation');

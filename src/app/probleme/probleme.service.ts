@@ -1,17 +1,33 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ITypeProbleme } from './probleme';
 import { catchError, tap } from 'rxjs/operators';
+import { IProbleme } from './problemedata';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProblemeService {
 
-  constructor(private http: HttpClient) { }
   private baseUrl = 'https://localhost:7269/Intervention';
+  constructor(private http: HttpClient) { }
 
+  saveProbleme(probleme: IProbleme): Observable<IProbleme> {
+    return this.createProbleme(probleme);
+  }
+  
+ /** POST: add a new problem to the server */
+private createProbleme(probleme: IProbleme): Observable<IProbleme> {
+  return this.http.post<IProbleme>(this.baseUrl, probleme, this.httpOptions).pipe(
+    tap((probleme: IProbleme) => console.log('added problem w/ id=${probleme.id}')),
+    catchError(this.handleError)
+  );
+}
+
+  private httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 obtenirTypesProbleme(): Observable<ITypeProbleme[]> {
   return this.http.get<ITypeProbleme[]>(this.baseUrl).pipe(
       tap(data => console.log('obtenirTypesProbleme: ' + JSON.stringify(data))),
