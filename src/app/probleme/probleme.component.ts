@@ -6,6 +6,7 @@ import { ITypeProbleme } from './probleme';
 import { ProblemeService } from './probleme.service';
 import { Router } from '@angular/router';
 import { IProbleme } from './problemedata';
+import { TypeProblemeService } from './typeprobleme.service';
 
 @Component({
   selector: 'Inter-probleme',
@@ -18,7 +19,7 @@ export class ProblemeComponent implements OnInit {
   typesprobleme: ITypeProbleme[];
   probleme: IProbleme;
   
-  constructor(private fb: FormBuilder, private typeproblemeService: ProblemeService, private problemeService: ProblemeService, private route : Router) { }
+  constructor(private fb: FormBuilder, private typeproblemeService: TypeProblemeService, private problemeService: ProblemeService, private route : Router) { }
 
   ngOnInit(): void {
     this.problemeForm = this.fb.group({
