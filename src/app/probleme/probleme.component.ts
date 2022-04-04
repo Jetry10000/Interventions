@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emailMatcherValidator } from '../shared/longueur-minimum/email-matcher/email-matcher.component';
 import { VerifierCaracteresValidator } from '../shared/longueur-minimum/longueur-minimum.component';
-import { ITypeProbleme } from './probleme';
+import { ITypeProbleme } from './typeprobleme';
 import { ProblemeService } from './probleme.service';
 import { Router } from '@angular/router';
-import { IProbleme } from './problemedata';
+import { IProbleme } from './probleme';
 import { TypeProblemeService } from './typeprobleme.service';
 
 @Component({

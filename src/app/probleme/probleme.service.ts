@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { IProbleme } from './problemedata';
+import { IProbleme } from './probleme';
 
 @Injectable({
   providedIn: 'root'
